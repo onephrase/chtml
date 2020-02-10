@@ -677,7 +677,7 @@ ChtmlCore.schema = Schema;
  * @var object
  */
 ChtmlCore.elementMap = {
-	defsheet: 'script[type="application/chtml-cps"]',
+	defsheet: 'script[type="text/jsen-p"]',
 	bundle: 'chtml-bundle',
 	import: 'chtml-import',
 };
@@ -688,7 +688,7 @@ ChtmlCore.elementMap = {
 ChtmlCore.attributeMap = {
 	ns: 'chtml-ns',
 	related: 'chtml-related',
-	bindings: 'chtml-bindings',
+	bindings: 'chtml-directives',
 	superrole: 'chtml-role',
 	subrole: 'chtml-role',
 	nocompose: ['nocompose', 'shadow',],
