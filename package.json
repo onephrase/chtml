@@ -1,0 +1,42 @@
+{
+  "name": "@onephrase/chtml",
+  "title": "CHTML",
+  "description": "&lt;C&sbquo;HTML /&gt; - UI Componentization in plain HTML! CHTML (Component-oriented HTML) is the first markup-level component system. And this is an important new possibility!",
+  "keywords": [
+    "HTML components",
+    "UI components",
+    "Frontend framework",
+    "Plain HTML"
+  ],
+  "homepage": "https://www.onephrase.dev",
+  "icon": "https://www.onephrase.dev/icon.svg",
+  "author": "Oxford Harrison <oxharriscreative@gmail.com>",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onephrase/chtml.git"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"build": "webpack --config ../webpack.config.js",
+	"watch": "webpack --watch"
+  },
+  "dependencies": {
+    "@onephrase/commons": "^0.0.0",
+    "@onephrase/jsen": "^0.0.0",
+    "@onephrase/observable": "^0.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
+  },
+  "browser": {
+	"fs": false
+  },
+  "bugs": {
+    "url": "https://github.com/onephrase/chtml/issues"
+  }
+}
