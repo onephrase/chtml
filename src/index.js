@@ -85,7 +85,7 @@ contentLoadedPromise.then(() => {
 			return ChtmlCore.bundles.find(namespace.slice(0, -1).join('/'));
 		}
 		anticyclicBundlesQuery.push(_namespace);
-		var el = bundle.content.querySelector('[' + ChtmlCore.attributeMap.ns + '="' + _namespace + '"]');
+		var el = bundle.content.querySelector('[' + CSS.escape(ChtmlCore.attributeMap.ns) + '="' + _namespace + '"]');
 		if (el && superEl) {
 			try {
 				var norecompose = [];
@@ -254,6 +254,6 @@ customElements.define(ChtmlCore.elementMap.import, class extends HTMLElement {
 export {
 	ChtmlCore,
 	Schema,
-	Matrix,
+	Matrix
 };
 export default Chtml;

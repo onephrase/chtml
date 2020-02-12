@@ -93,7 +93,7 @@ const ChtmlCore = class extends Observable {
 		this.$.bindingsListeners = [];
 		// Apply bindings...
 		var stringifyEach = list => _unique(list.map(expr => _before(_before(expr.toString(), '['), '(')));
-		this.getCpsBlock('bindings', true/*asDirectives*/).forEach(binding => {
+		this.getCpsBlock('directives', true/*asDirectives*/).forEach(binding => {
 			if (!this.$.params.observeOnly) {
 				binding.eval(this, this.jsenGetter());
 			}
@@ -151,7 +151,7 @@ const ChtmlCore = class extends Observable {
 		// as we already have the most accurate available
 		// -------------------------------
 		var attrCache = {};
-		[ChtmlCore.attributeMap.related, ChtmlCore.attributeMap.bindings].forEach(type => {
+		ChtmlCore.paramsAttrs.map(attr => ChtmlCore.attributeMap[attr]).forEach(type => {
 			var attrValue;
 			if (attrValue = el.getAttribute(type)) {
 				attrCache.type = attrValue;
@@ -262,8 +262,8 @@ const ChtmlCore = class extends Observable {
 			// Find matches...
 			return roles.reduce((matchedNode, role) => {
 				if (!matchedNode) {
-					var closestSuperSelector = '[' + ChtmlCore.attributeMap.superrole + '~="' + role + '"]';
-					var nodeSelector = '[' + ChtmlCore.attributeMap.subrole + '~="' + role + '-' + requestNodeName + '"]';
+					var closestSuperSelector = '[' + CSS.escape(ChtmlCore.attributeMap.superrole) + '~="' + role + '"]';
+					var nodeSelector = '[' + CSS.escape(ChtmlCore.attributeMap.subrole) + '~="' + role + '-' + requestNodeName + '"]';
 					var closestSuper, _matchedNode;
 					if ((_matchedNode = (this.el.shadowRoot || this.el).querySelector(nodeSelector))
 					// If this.el has a shadowRoot, we don't expect _matchedNode to be able to find is superRole element.
@@ -449,7 +449,7 @@ const ChtmlCore = class extends Observable {
 			defsheet = new DefSheet;
 		}
 		var attr, defBlock;
-		['related', 'bindings',].forEach(type => {
+		ChtmlCore.paramsAttrs.forEach(type => {
 			if ((attr = el.getAttribute(ChtmlCore.attributeMap[type])) && (defBlock = DefBlock.parse(attr))) {
 				defsheet.applyTo(type, defBlock);
 			}
@@ -460,7 +460,7 @@ const ChtmlCore = class extends Observable {
 	/**
 	 * Composes a component from a super component.
 	 *
-	 * All definitions (related, bindings) will be inherited.
+	 * All definitions (related, directives) will be inherited.
 	 * If the idea is to import, the super component's element will be returned,
 	 * (On import, nodes in component (as defined, if) will be uploaded into slots in the super component.)
 	 *
@@ -500,8 +500,8 @@ const ChtmlCore = class extends Observable {
 				});
 				if (applicableContextRoles.length) {
 					var slotNodes;
-					var contextSelector = applicableContextRoles.map(contextRole => '[' + ChtmlCore.attributeMap.superrole + '~="' + contextRole + '"]');
-					var slotNodeSelector = applicableReplacementNodeRoles.map(replacementNodeRole => '[' + ChtmlCore.attributeMap.subrole + '~="' + replacementNodeRole + '"]');
+					var contextSelector = applicableContextRoles.map(contextRole => '[' + CSS.escape(ChtmlCore.attributeMap.superrole) + '~="' + contextRole + '"]');
+					var slotNodeSelector = applicableReplacementNodeRoles.map(replacementNodeRole => '[' + CSS.escape(ChtmlCore.attributeMap.subrole) + '~="' + replacementNodeRole + '"]');
 					if ((elFrom.shadowRoot && (slotNodes = elFrom.shadowRoot.querySelectorAll(slotNodeSelector)))
 					|| ((slotNodes = elFrom.querySelectorAll(slotNodeSelector)).length === 1 && slotNodes[0].closest(contextSelector) === elFrom)) {
 						// We will prepend defs from the slot node into replacement node
@@ -509,7 +509,7 @@ const ChtmlCore = class extends Observable {
 						// Port to target...
 						slotNodes[0].replaceWith(replacementNode);
 					} else {
-						this.error('Composition Error: Node #' + i + ' (at ' + elToNs + ') must match exactly one targetNode in ' + elFromNs + '! (' + slotNodes.length + ' matched)');
+						throw new Error('Composition Error: Node #' + i + ' (at ' + elToNs + ') must match exactly one targetNode in ' + elFromNs + '! (' + slotNodes.length + ' matched)');
 						return;
 					}
 				} else {
@@ -524,7 +524,7 @@ const ChtmlCore = class extends Observable {
 	}
 	
 	/**
-	 * Composes definitions (related, bindings) from elFrom into elTo.
+	 * Composes definitions (related, directives) from elFrom into elTo.
 	 *
 	 * @param HTMLElement				elTo
 	 * @param HTMLElement				elFrom
@@ -567,7 +567,7 @@ const ChtmlCore = class extends Observable {
 		// ----------------------------
 		// Merge definition attributes...
 		// ----------------------------
-		[ChtmlCore.attributeMap.related, ChtmlCore.attributeMap.bindings, 'style'].forEach(type => {
+		ChtmlCore.paramsAttrs.map(attr => ChtmlCore.attributeMap[attr]).concat('style').forEach(type => {
 			var b_attr, a_attr;
 			if (!norecompose.includes(type) && !norecompose.includes('*') && (b_attr = elFrom.getAttribute(type))) {
 				if (a_attr = elTo.getAttribute(type)) {
@@ -686,13 +686,24 @@ ChtmlCore.elementMap = {
  * @var object
  */
 ChtmlCore.attributeMap = {
-	ns: 'chtml-ns',
+	// paramsAttrs
 	related: 'chtml-related',
-	bindings: 'chtml-directives',
+	directives: 'chtml-directives',
+	// structuralAttrs
+	ns: 'chtml-ns',
 	superrole: 'chtml-role',
 	subrole: 'chtml-role',
+	// other
 	nocompose: ['nocompose', 'shadow',],
 };
+
+/**
+ * @var array
+ */
+ChtmlCore.paramsAttrs = [
+	'related', 
+	'directives',
+];
 
 /**
  * @exports
