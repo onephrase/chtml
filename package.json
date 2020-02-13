@@ -25,11 +25,6 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "@onephrase/commons": "file:../commons",
-    "@onephrase/jsen": "file:../jsen",
-    "@onephrase/observable": "file:../observable"
-  },
-  "-dependencies": {
     "@onephrase/commons": "^0.0.1",
     "@onephrase/jsen": "^0.0.2",
     "@onephrase/observable": "^0.0.2"
