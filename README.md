@@ -1,5 +1,5 @@
 # &lt;C&sbquo;HTML /&gt;
-> A component System that’s as Simple and Universal as HTML Itself!
+> An HTML-based component System that’s as Simple and Universal as HTML Itself!
 
 CHTML is a framework for designing UI components at markup level. It is aptly named as it entirely shifts the concept of UI componentization from JavaScript classes to plain HTML. And this is an important change!
 
