@@ -2,12 +2,8 @@
 /**
  * @imports
  */
-import {
-	_before
-} from '@onephrase/commons/src/Str.js';
-import {  
-	_from as _arr_from
-} from '@onephrase/commons/src/Arr.js';
+import _before from '@onephrase/commons/str/before.js';
+import _arrFrom from '@onephrase/commons/arr/from.js';
 import Schema from './Schema.js';
 import Matrix from './Def/Matrix.js';
 import ChtmlCore from './ChtmlCore.js';
@@ -53,7 +49,7 @@ ChtmlCore.ready = (callback, waitForBundles = true) => {
 contentLoadedPromise.then(() => {
 	// ------------------------------------
 	ChtmlCore.initObj = (() => {
-		var bundles = _arr_from(document.querySelectorAll('template[is="' + ChtmlCore.elementMap.bundle + '"]')).reverse();
+		var bundles = _arrFrom(document.querySelectorAll('template[is="' + ChtmlCore.elementMap.bundle + '"]')).reverse();
 		var remoteBundles = bundles.filter(b => b.hasAttribute('src') && !b.content.children.length);
 		var loadingBundles = remoteBundles.map(b => new Promise(resolve => {
 			b.addEventListener('bundleloadsuccess', resolve);

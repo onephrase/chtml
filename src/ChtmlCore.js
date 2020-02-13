@@ -2,26 +2,6 @@
 /**
  * @imports
  */
-import {
-	_isArray,
-	_isString,
-	_isFunction,
-	_isProxy,
-	_getProxyTarget
-} from '@onephrase/commons/src/Js.js';
-import {
-	_from as _arr_from,
-	_unique
-} from '@onephrase/commons/src/Arr.js';
-import {
-	_even,
-	_each,
-	_copy
-} from '@onephrase/commons/src/Obj.js';
-import {
-	_before,
-	_after
-} from '@onephrase/commons/src/Str.js';
 import Jsen, {
 	ArgumentsInterface,
 	CallInterface,
@@ -29,6 +9,18 @@ import Jsen, {
 	Arguments,
 	Lexer
 } from '@onephrase/jsen';
+import _isString from '@onephrase/commons/js/isString.js';
+import _isArray from '@onephrase/commons/js/isArray.js';
+import _isFunction from '@onephrase/commons/js/isFunction.js';
+import _getProxyTarget from '@onephrase/commons/js/getProxyTarget.js';
+import _isProxy from '@onephrase/commons/js/isProxy.js';
+import _arrFrom from '@onephrase/commons/arr/from.js';
+import _unique from '@onephrase/commons/arr/unique.js';
+import _copy from '@onephrase/commons/obj/copy.js';
+import _each from '@onephrase/commons/obj/each.js';
+import _even from '@onephrase/commons/obj/even.js';
+import _before from '@onephrase/commons/str/before.js';
+import _after from '@onephrase/commons/str/after.js';
 import Observable from '@onephrase/observable';
 import Matrix from './Def/Matrix.js';
 import DefSheet from './Def/DefSheet.js';
@@ -95,12 +87,12 @@ const ChtmlCore = class extends Observable {
 		var stringifyEach = list => _unique(list.map(expr => _before(_before(expr.toString(), '['), '(')));
 		this.getCpsBlock('directives', true/*asDirectives*/).forEach(binding => {
 			if (!this.$.params.observeOnly) {
-				binding.eval(this, this.jsenGetter());
+				binding.eval(this);
 			}
 			// We'll execute binding on the appriopriate changes
 			var listenerObj = this.observe(stringifyEach(binding.meta.vars), (newState, oldState, params) => {
 				// Next eval() should be triggered by only the changes in the vars that participated in this eval()
-				var evalReturn = binding.eval(this, this.jsenGetter());
+				var evalReturn = binding.eval(this);
 				// If the result of this evaluation is false,
 				// e.stopPropagation will be called and subsequent expressions
 				// will not be evaluated. So we must not allow false to be returned.
@@ -159,7 +151,7 @@ const ChtmlCore = class extends Observable {
 			}
 		});
 		var dataBlockScript;
-		if (dataBlockScript = _arr_from(el.children).filter(node => node.matches(ChtmlCore.elementMap.defsheet))[0]) {
+		if (dataBlockScript = _arrFrom(el.children).filter(node => node.matches(ChtmlCore.elementMap.defsheet))[0]) {
 			dataBlockScript.remove();
 		}
 		// -------------------------------
@@ -221,7 +213,7 @@ const ChtmlCore = class extends Observable {
 	 * @return HTMLElement|ChtmlInterface
 	 */
 	getRelatedNode(requestNodeName) {
-		var computeQuery, node, vars = [];
+		var computeQuery, node;
 		if (!this.computedRelated) {
 			this.computedRelated = {};
 			this.getCpsBlock('related', false/*asDirectives*/).forEach(entry => {
@@ -229,7 +221,7 @@ const ChtmlCore = class extends Observable {
 			});
 		}
 		if ((computeQuery = this.computedRelated[requestNodeName]) 
-		&& (node = computeQuery.eval(this, this.jsenGetter(vars)))) {
+		&& (node = computeQuery.eval(this))) {
 			if (_isFunction(node)) {
 				node = node(this.el, requestNodeName);
 				if (!_isString(node) && !(node instanceof HTMLElement)) {
@@ -383,8 +375,8 @@ const ChtmlCore = class extends Observable {
 		}
 		// ----------------------
 		var node;
-		if (nodeName === '_' || nodeName === '__') {
-			return super.get(nodeName);
+		if (nodeName === '_') {
+			return this.getOffsetParent();
 		}
 		if ((nodeName === 'root' && (node = this.root)) 
 		|| (nodeName === 'el' && (node = this.el))) {
@@ -444,7 +436,7 @@ const ChtmlCore = class extends Observable {
 	 */
 	static parseCascadedDefSheet(el) {
 		var dataBlockScript, defsheet;
-		if (!(dataBlockScript = _arr_from(el.children).filter(node => node.matches(ChtmlCore.elementMap.defsheet))[0])
+		if (!(dataBlockScript = _arrFrom(el.children).filter(node => node.matches(ChtmlCore.elementMap.defsheet))[0])
 		|| !(defsheet = DefSheet.parse((dataBlockScript.textContent || '').trim()))) {
 			defsheet = new DefSheet;
 		}
@@ -484,7 +476,7 @@ const ChtmlCore = class extends Observable {
 			// -------------------------
 			// Upload nodes into elFrom just the way slots work in Web Compoonents
 			// -------------------------
-			_arr_from((elTo.shadowRoot || elTo).children).forEach((replacementNode, i) => {
+			_arrFrom((elTo.shadowRoot || elTo).children).forEach((replacementNode, i) => {
 				if (replacementNode.matches(ChtmlCore.elementMap.defsheet)) {
 					return;
 				}
@@ -596,9 +588,9 @@ const ChtmlCore = class extends Observable {
 		// For data blocks...
 		// ----------------------------
 		if (!norecompose.includes('@cps') && !norecompose.includes('*')) {
-			var elToDefs = _arr_from((elTo.shadowRoot || elTo).children)
+			var elToDefs = _arrFrom((elTo.shadowRoot || elTo).children)
 				.filter(node => node.matches(ChtmlCore.elementMap.defsheet));
-			var elFromDefs = _arr_from((elFrom.shadowRoot || elFrom).children)
+			var elFromDefs = _arrFrom((elFrom.shadowRoot || elFrom).children)
 				.filter(node => node.matches(ChtmlCore.elementMap.defsheet));
 			if (elFromDefs.length) {
 				if (elToDefs.length) {
@@ -646,7 +638,7 @@ const ChtmlCore = class extends Observable {
 			var called = false;
 			var observer = new MutationObserver(mutations => {
 				mutations.forEach(m => {
-					if (!called && _arr_from(m.removedNodes).includes(el)) {
+					if (!called && _arrFrom(m.removedNodes).includes(el)) {
 						called = true;
 						callback();
 					}

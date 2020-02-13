@@ -5,17 +5,11 @@
 import {
 	Lexer
 } from '@onephrase/jsen';
-import {
-	_copy,
-	_each
-} from '@onephrase/commons/src/Obj.js';
-import {
-	_isArray,
-	_isObject
-} from '@onephrase/commons/src/Js.js';
-import {
-	_unwrap
-} from '@onephrase/commons/src/Str.js';
+import _copy from '@onephrase/commons/obj/copy.js';
+import _each from '@onephrase/commons/obj/each.js';
+import _isArray from '@onephrase/commons/js/isArray.js';
+import _isObject from '@onephrase/commons/js/isObject.js';
+import _unwrap from '@onephrase/commons/str/unwrap.js';
 import DefBlock from './DefBlock.js';
 
 /**

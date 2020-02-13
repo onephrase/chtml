@@ -3,14 +3,10 @@
  * @imports
  */
 import {
-	_last
-} from '@onephrase/commons/src/Arr.js';
-import {
-	_copy
-} from '@onephrase/commons/src/Obj.js';
-import {
 	Lexer
 } from '@onephrase/jsen';
+import _last from '@onephrase/commons/arr/last.js';
+import _copy from '@onephrase/commons/obj/copy.js';
 
 /**
  * ---------------------------

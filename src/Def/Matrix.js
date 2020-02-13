@@ -2,9 +2,7 @@
 /**
  * @imports
  */
-import {
-	_from
-} from '@onephrase/commons/src/Arr.js';
+import _arrFrom from '@onephrase/commons/arr/from.js';
 
 /**
  * ---------------------------
@@ -25,8 +23,8 @@ const Matrix = class {
 	 * @return this
 	 */
 	constructor(sources, namespace, getter, carry = null) {
-		this.sources = _from(sources);
-		this.namespace = _from(namespace);
+		this.sources = _arrFrom(sources);
+		this.namespace = _arrFrom(namespace);
 		this.getter = getter;
 		this.carry = carry;
 		this.collections = {};

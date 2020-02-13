@@ -2,32 +2,21 @@
 /**
  * @imports
  */
-import {
-	_mixin,
-	_isString,
-	_isNumeric,
-	_isEmpty,
-	_isNumber,
-	_isFunction,
-	_isObservable,
-	_isProxy,
-	_isUndefined,
-	_getProxyTarget
-} from '@onephrase/commons/src/Js.js';
-import {
-	_all,
-	_following
-} from '@onephrase/commons/src/Arr.js';
-import {
-	_before,
-	_beforeLast
-} from '@onephrase/commons/src/Str.js';
-import {
-	_closest
-} from '@onephrase/commons/src/Num.js';
-import {
-	_inherit
-} from '@onephrase/commons/src/Obj.js';
+import _mixin from '@onephrase/commons/js/mixin.js';
+import _isString from '@onephrase/commons/js/isString.js';
+import _isNumber from '@onephrase/commons/js/isNumber.js';
+import _isNumeric from '@onephrase/commons/js/isNumeric.js';
+import _isFunction from '@onephrase/commons/js/isFunction.js';
+import _isUndefined from '@onephrase/commons/js/isUndefined.js';
+import _isObservable from '@onephrase/commons/js/isObservable.js';
+import _getProxyTarget from '@onephrase/commons/js/getProxyTarget.js';
+import _isProxy from '@onephrase/commons/js/isProxy.js';
+import _all from '@onephrase/commons/arr/all.js';
+import _following from '@onephrase/commons/arr/following.js';
+import _before from '@onephrase/commons/str/before.js';
+import _beforeLast from '@onephrase/commons/str/beforeLast.js';
+import _closest from '@onephrase/commons/num/closest.js';
+import _inherit from '@onephrase/commons/obj/inherit.js';
 import ChtmlCore from './ChtmlCore.js';
 
 /**

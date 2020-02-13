@@ -3,12 +3,10 @@
  * @imports
  */
 import {
-	_wrapped,
-	_unwrap
-} from '@onephrase/commons/src/Str.js';
-import {
 	Lexer
 } from '@onephrase/jsen';
+import _wrapped from '@onephrase/commons/str/wrapped.js';
+import _unwrap from '@onephrase/commons/str/unwrap.js';
 import Def from './Def.js';
 
 /**

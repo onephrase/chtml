@@ -2,13 +2,9 @@
 /**
  * @imports
  */
-import {
-	_each
-} from '@onephrase/commons/src/Obj.js';
-import {
-	_isObject,
-	_isFunction
-} from '@onephrase/commons/src/Js.js';
+import _each from '@onephrase/commons/obj/each.js';
+import _isObject from '@onephrase/commons/js/isObject.js';
+import _isFunction from '@onephrase/commons/js/isFunction.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

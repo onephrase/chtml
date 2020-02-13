@@ -2,13 +2,9 @@
 /**
  * @imports
  */
-import {
-	_isObject
-} from '@onephrase/commons/src/Js.js';
-import {
-	_pushUnique,
-	_intersect
-} from '@onephrase/commons/src/Arr.js';
+import _isObject from '@onephrase/commons/js/isObject.js';
+import _pushUnique from '@onephrase/commons/arr/pushUnique.js';
+import _intersect from '@onephrase/commons/arr/intersect.js';
 
 /**
  * ---------------------------
