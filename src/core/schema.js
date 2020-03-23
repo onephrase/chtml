@@ -2,14 +2,14 @@
 /**
  * @imports
  */
-import _isObject from '@onephrase/commons/js/isObject.js';
-import _pushUnique from '@onephrase/commons/arr/pushUnique.js';
-import _intersect from '@onephrase/commons/arr/intersect.js';
+import _isObject from '@web-native-js/commons/js/isObject.js';
+import _pushUnique from '@web-native-js/commons/arr/pushUnique.js';
+import _intersect from '@web-native-js/commons/arr/intersect.js';
 
 /**
  * ---------------------------
  * The HTML Context Model Schema.
-	// @see https://html.spec.whatwg.org/multipage
+ * @see https://html.spec.whatwg.org/multipage
  * ---------------------------
  */				
 

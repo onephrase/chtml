@@ -2,9 +2,9 @@
 /**
  * @imports
  */
-import _each from '@onephrase/commons/obj/each.js';
-import _isObject from '@onephrase/commons/js/isObject.js';
-import _isFunction from '@onephrase/commons/js/isFunction.js';
+import _each from '@web-native-js/commons/obj/each.js';
+import _isObject from '@web-native-js/commons/js/isObject.js';
+import _isFunction from '@web-native-js/commons/js/isFunction.js';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -25,7 +25,7 @@ const Bundler = class {
 	 *
 	 * @return void
 	 */
-	constructor(baseDir, nsAttrName = 'chtml-ns', nsCallback = null) {
+	constructor(baseDir, nsAttrName = 'c-namespace', nsCallback = null) {
 		if (!baseDir.endsWith('/')) {
 			baseDir += '/';
 		}
@@ -86,7 +86,7 @@ const Bundler = class {
 			});
 		} else {
 			var contents = fs.readFileSync(file).toString();
-			if (contents.trim().startsWith('<')) {
+			if (contents.trim().startsWith('<') && !contents.trim().startsWith('<?xml')) {
 				// Add a namespace attribute on the first available
 				// space on the start tag
 				var namespacedContent = contents.replace(/<([a-z\-]+)/, '<$1 ' + nsAttrName);
@@ -146,7 +146,7 @@ const Bundler = class {
 	 *
 	 * @return string|object
 	 */
-	static multiple(from, to = null) {
+	static bundle(from, to = null) {
 		if (_isObject(from)) {
 			var bundles = {};
 			_each(from, (name, basePath) => {

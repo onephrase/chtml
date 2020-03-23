@@ -2,7 +2,7 @@
 /**
  * @imports
  */
-import _arrFrom from '@onephrase/commons/arr/from.js';
+import _arrFrom from '@web-native-js/commons/arr/from.js';
 
 /**
  * ---------------------------
@@ -10,7 +10,7 @@ import _arrFrom from '@onephrase/commons/arr/from.js';
  * ---------------------------
  */				
 
-const Matrix = class {
+export default class Matrix {
 	
 	/**
 	 * Creates a new Matrix instance.
@@ -97,8 +97,3 @@ const Matrix = class {
 		}
 	}
 };
-
-/**
- * @export
- */
-export default Matrix;
